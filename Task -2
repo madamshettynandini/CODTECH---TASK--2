@@ -1,0 +1,67 @@
+create database student_management_system;
+
+use student_management_system;
+
+
+CREATE TABLE Students (
+    student_id INT PRIMARY KEY ,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    date_of_birth DATE,
+    email VARCHAR(100),
+    phone_number VARCHAR(15)
+);
+
+CREATE TABLE Courses (
+    course_id INT PRIMARY KEY AUTO_INCREMENT,
+    course_name VARCHAR(100) NOT NULL,
+    credits INT NOT NULL
+);
+
+
+CREATE TABLE Enrollments (
+    enrollment_id INT PRIMARY KEY AUTO_INCREMENT,
+    student_id INT,
+    course_id INT,
+    grade CHAR(2),
+    enrollment_date DATE,
+    FOREIGN KEY (student_id) REFERENCES Students(student_id),
+    FOREIGN KEY (course_id) REFERENCES Courses(course_id)
+);
+
+ select * from Students;
+
+select * from Courses;
+
+ select * from Enrollments;
+
+INSERT INTO Students (student_id,first_name, last_name, date_of_birth, email, phone_number)
+VALUES (1,'chetana', 'sree', '2004-04-19', 'chetana@gmail.com', '999999999'),(2,'sravani', 'g', '2003-09-06', 'sravani@gmail.com', '888888888'),(3,'sree', 'priya', '2004-08-15', 'sree@gmail.com', '7777777777'),(4,'devi', 'sree', '2003-11-06', 'devi@gmail.com', '6666666666'),(5,'hari', 'priya', '2003-08-15', 'priya@gmail.com', '5555555555');
+
+INSERT INTO Courses (course_id,course_name, credits)
+VALUES (1,'Database Systems', 3),(2,'Data Science', 3),(3,'Computer Networks', 3),(4,'Data Structures', 3),(5,'Web Development', 3);
+
+INSERT INTO Enrollments (student_id, course_id, grade, enrollment_date)
+VALUES (1, 1, 'A', '2024-07-29'), VALUES (1, 3, 'A', '2024-07-24'),(2, 2, 'A', '2024-07-25'),(2, 3, 'A', '2024-07-25'),(4, 2, 'A', '2024-07-25'),(3, 3, 'A', '2024-07-25');
+
+SELECT s.first_name, s.last_name, c.course_name, e.grade
+FROM Students s
+JOIN Enrollments e ON s.student_id = e.student_id
+JOIN Courses c ON e.course_id = c.course_id;
+
+SELECT c.course_name, s.first_name, s.last_name, e.grade
+FROM Courses c
+JOIN Enrollments e ON c.course_id = e.course_id
+JOIN Students s ON e.student_id = s.student_id;
+
+UPDATE Students
+SET phone_number = '11111111111'
+WHERE student_id = 1;
+
+select * from Students;
+
+
+DELETE FROM Students
+WHERE student_id = 5;
+
+select * from Students;
